@@ -1,0 +1,43 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block style_block %}
+<style>
+    .log_in{
+        width:300px;
+        height:700px;
+        border:1px solid #ccc;
+        padding:20px;
+   
+    }
+</style>
+{% endblock%}
+
+{% block body_block %}
+
+{% if  Registerd %}
+    <div class=alert alert-success">
+        <h3>Account Created successfully</h3>
+        <p> <h5>You can <a href="{% url 'loginapp:sign_in' %}">Login</a> here</h5></p>
+    </div>
+{% else %}
+
+<center style='padding-top:5%'>
+<div class="log_in">
+    <form method="POST" >
+        {{form|crispy}}
+        {% csrf_token %}
+        <br>
+        <button type="submit" class="btn btn-primary btn-sm" style="width:190px" >login</button>
+        </form>
+
+        <p style='padding-top:10%'><b>Already have an account?<a href="{% url 'loginapp:sign_in' %}">Login</a> here</b></p>
+        
+</div>
+</center>
+{% endif %}
+
+
+{%endblock%}
+

@@ -1,0 +1,35 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block body_block %}
+{% for blog in blogs %}
+
+<div class="row">
+
+    <div class="col-sm-8" style="padding-top:10px">
+        {% if blog.author.user_profile.proPic %}
+        <img src="/media/{{ blog.author.user_profile.proPic}}"   class="rounded-circle" width="20px">
+        {% else %}
+        <img src="/media/ProfilePic/avater.png"  class="rounded-circle " width="50px">
+        {% endif %}
+        <h6>{{blog.author}}</h6>
+        <h4>{{ blog.title }}</h3>
+        <h6>{{ blog.creat_date }}</h6>
+        <p style="padding-right:20px">
+            {{ blog.blog_content|range_filter|linebreaks}} <a href="{% url 'blogapp:blog_detail' slug=blog.slug %}" >more</a>
+        </p>
+        <h6>{{ blog.like_blog.count}} Likes | {{ blog.blog_comment.count}} Comments</h6>   
+    </div>
+
+    <div class="col-sm-4" >
+        <img src="/media/{{ blog.blog_img}}"  title="{{ blog.title }}" width="80%" style="padding:10%" >
+    </div>
+
+    
+</div>
+<hr>
+{% endfor %}
+
+{%endblock%}
+
+

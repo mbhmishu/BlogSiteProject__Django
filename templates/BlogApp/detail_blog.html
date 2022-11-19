@@ -1,0 +1,53 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title_block%} {{blog.title}} {% endblock %}
+{% block body_block %}
+<div class="row">
+    <div class="col-sm-6"> 
+        <h2>{{blog.title}}</h2>
+        <h4>Author: {{blog.author}}</h4>
+        <i><h6>Published on:{{blog.creat_date}}</h6></i>
+        <i><h6>last update on:{{blog.edit_date}}</h6></i>
+        <h6>{{ blog.like_blog.count}} Likes | {{ blog.blog_comment.count}} Comments</h6>
+
+    </div>
+    <div class="col-sm-6"> 
+        <img src="/media/{{ blog.blog_img}}"  title="{{ blog.title }}" width="98%" style="margin:2%" >
+    </div>
+</div>
+<div>
+    <p>{{blog.blog_content|linebreaks}}</p>
+    
+</div>
+<hr>
+    {% if not likes %}
+    <a href="{% url 'blogapp:Liked' pk=blog.pk %}"><b>Like</b></a>
+    {% else %}
+    <a href="{% url 'blogapp:Unlike' pk=blog.pk %}"><b>Unlike</b></a>
+    {% endif%}
+
+<hr>
+<div class="row" style="padding-bottom:20px">
+    <div class=col-sm-6>
+         <h2>Comments </h2>
+         {% for comment in blog.blog_comment.all%}
+         <p>
+            <a href="#" >@{{ comment.user }}</a> <b>{{ comment.comment }}</b>
+            <br>
+            {{ comment.comment_date }}
+            {% endfor %}
+         </p>
+    </div>
+    <div class=col-sm-6>
+        <form method="POST">
+            {{form|crispy}}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm" >Publish</button>
+            
+    </div>
+</div>
+
+
+
+{% endblock %}
